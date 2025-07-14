@@ -1,15 +1,7 @@
-import './App.css'
+import Pages from './pages/LandingPage';
 
 function App() {
-  return (
-    <div className="hero-container">
-      <div className="overlay" />
-      <div className="hero-content">
-          <h1 className="logo-text">Trygve</h1>
-          <p className="subtitle">Trusted Guardian of Life</p>
-        </div>
-      </div>
-  )
+  return <Pages />;
 }
 
-export default App
+export default App;

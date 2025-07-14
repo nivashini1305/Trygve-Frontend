@@ -1,0 +1,132 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.landing-banner {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.landing-img {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(4, 75, 217, 0.62);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.landing-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  transform: translate(-50%, -50%);
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.heading-text {
+  font-family: 'Audiowide', sans-serif;
+  font-size: 3rem;
+  margin: 0;
+}
+
+.subheading-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.2rem;
+  margin-top: 10px;
+}
+
+.dot-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-color: white;
+}
+
+.landing-controls-bottom {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  width: 100%;
+  padding: 0 30px;
+  display: flex;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.get-started-btn {
+  margin-top: 30px;
+  background-color: #044BD9;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.get-started-btn:hover {
+  opacity: 0.85;
+}
+
+.skip-btn,
+.next-btn {
+  background: transparent;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.skip-btn:hover,
+.next-btn:hover {
+  opacity: 0.7;
+}
+
+.next-btn {
+  margin-left: auto;
+}

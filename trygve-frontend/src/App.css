@@ -1,41 +1,6 @@
-.hero-container {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background: url('public/assets/1.png') center center/cover no-repeat;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 54, 153, 0.7); /* blue overlay */
-  z-index: 1;
-}
-
-.hero-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.logo-text {
-  font-family: Audiowide;
-  font-size: 10rem;
-  color: #fff;
-  font-weight: bold;
-  letter-spacing: 0.2em;
-  margin-bottom: 0.5rem;
-  text-transform: lowercase;
-}
-
-.subtitle {
-  color: #fff;
-  font-size: 1.2rem;
-  letter-spacing: 0.05em;
+.App {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: #b32525;
 }
