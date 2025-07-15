@@ -63,7 +63,7 @@ html, body {
 }
 
 .dot-container {
-  margin-top: 20px;
+  margin-top: 40px;
   display: flex;
   justify-content: center;
   gap: 10px;
@@ -95,21 +95,30 @@ html, body {
 }
 
 .get-started-btn {
-  margin-top: 30px;
-  background-color: #044BD9;
-  color: white;
-  padding: 10px 20px;
+  display: block;
+  margin: 20px auto 0 auto;
+  margin-top: 20px;
+  background-color: #0456d9;
+  color: #fff;
+  padding: 15px 0;
+  width: 300px;
   border: none;
-  font-size: 1rem;
+  border-radius: 40px;
+  font-size: 1.3rem;
   font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  box-shadow: 0 4px 24px rgba(4, 86, 217, 0.15);
   cursor: pointer;
-  transition: opacity 0.2s ease-in-out;
+  transition: background 0.2s, opacity 0.2s;
+  text-align: center;
 }
 
 .get-started-btn:hover {
-  opacity: 0.85;
+  background-color: #003699;
+  border: 2px solid #fff;
+  opacity: 0.92;
 }
-
 .skip-btn,
 .next-btn {
   background: transparent;
