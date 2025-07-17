@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/LoginPageStyle.css';
+import { useNavigate } from 'react-router-dom';
 const loginSlides = [
     {
         logo :'/assets/TrygveLogo.png',
@@ -14,6 +15,7 @@ const LoginSlides: React.FC = () => {
 
     const slide = loginSlides[current];
 
+    const navigate = useNavigate();
     return (
         <div className="login-banner">
             <div className="login-content">
@@ -23,7 +25,10 @@ const LoginSlides: React.FC = () => {
                 <p className="login-subtitle">{slide.subtitle}</p>
                 {slide.showButtons && (
                     <div className="login-buttons">
-                        <button className="get-started-btn">Sign up</button>
+                        <button
+                            className="get-started-btn"
+                            onClick={() => navigate('/signup')}>Sign up</button>
+                        {/* <button className="get-started-btn">Sign up</button> */}
                         <button className="login-btn">Login</button>
                     </div>
                 )}
