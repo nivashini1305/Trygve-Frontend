@@ -126,3 +126,21 @@
   background: #fff;
   box-shadow: 0 0 2px #ccc;
 }
+otp-input {
+  width: 48px;
+  height: 48px;
+  font-size: 2rem;
+  text-align: center;
+  border: 2px solid #0456d9;
+  border-radius: 12px;
+  background: #fff;
+  margin-right: 8px;
+}
+@media (max-width: 500px) {
+  .otp.input{
+    width: 36px;
+    height: 36px;
+    font-size: 1.3rem;
+    margin-right: 4px;
+  }
+}

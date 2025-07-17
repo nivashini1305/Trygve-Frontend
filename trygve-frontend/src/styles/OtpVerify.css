@@ -1,0 +1,93 @@
+.otp-form {
+  align-items: center;
+  width: 100%;
+}
+
+.otp-input-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.otp-input {
+  width: 48px;
+  height: 48px;
+  font-size: 2rem;
+  text-align: center;
+  border: 2px solid #0456d9;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.otp-error {
+  margin-bottom: 16px;
+  color: #d32f2f;
+  min-height: 24px;
+  text-align: center;
+}
+
+.otp-resend {
+  margin-bottom: 24px;
+  text-align: center;
+  color: #555;
+}
+
+.otp-resend-link {
+  color: #0456d9;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.otp-btn {
+  width: 100%;
+  max-width: 320px;
+  background: #0456d9;
+  color: #fff;
+  border: none;
+  border-radius: 40px;
+  font-size: 1.3rem;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  padding: 16px 0;
+  margin-bottom: 0;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 4px 16px rgba(4, 86, 217, 0.12);
+  margin-top: 32px;
+}
+.otp-input-row {
+  display: flex;
+  gap: 16px; /* spacing between boxes */
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.otp-input {
+  width: 56px;
+  height: 56px;
+  font-size: 2rem;
+  text-align: center;
+  border: 2px solid #0456d9;
+  border-radius: 12px;
+  background: #fff;
+  color: #222;
+  outline: none;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.otp-input:focus {
+  border-color: #003fa3;
+  box-shadow: 0 0 0 2px #b3d1ff;
+}
+
+@media (max-width: 500px) {
+    .otp-input {
+    width: 40px;
+    height: 40px;
+    font-size: 1.3rem;
+  }
+  .otp-input-row {
+    gap: 8px;
+  }
+}

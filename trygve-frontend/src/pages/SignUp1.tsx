@@ -28,9 +28,10 @@ const SignUpPage: React.FC = () => {
       setError('Please enter a valid phone number');
       return;
     }
+    navigate('/otp-verification', { state: { phone } });
     // Add your OTP logic here
   };
-
+  
   return (
     <div className="login-banner">
       {/* Faded background logo */}
@@ -69,6 +70,7 @@ const SignUpPage: React.FC = () => {
               className="phone-input"
               required
               inputMode="numeric"
+              maxLength={10}
             />
           </div>
           <div style={{ color: '#d32f2f', marginBottom: '12px', textAlign: 'center' }}>
