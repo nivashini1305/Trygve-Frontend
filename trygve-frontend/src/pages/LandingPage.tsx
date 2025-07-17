@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/LandingPageStyle.css';
+
 
 const slides = [
   {
@@ -27,6 +29,7 @@ const slides = [
 const LandingPage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hasViewedIntro, setHasViewedIntro] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentSlide === 0 && !hasViewedIntro) {
@@ -48,9 +51,15 @@ const LandingPage: React.FC = () => {
       setCurrentSlide(slides.length - 1);
   };
 
+  const handleGetStarted = () => {
+      navigate('/home');  
+  };
   const current = slides[currentSlide];
 
+
+
   return (
+    
     <div className="landing-banner">
       <img src={current.image} alt="Banner" className="landing-img" />
       <div className="overlay" />
@@ -74,12 +83,12 @@ const LandingPage: React.FC = () => {
 
         {/* Show Get Started on last slide */}
         {currentSlide === slides.length - 1 && (
-          <button className="get-started-btn">Get Started</button>
+          <button className="get-started-btn" onClick={handleGetStarted}>Get Started</button>
         )}
       </div>
 
       {/* Controls for slides 2 & 3 */}
-      {currentSlide < slides.length - 1 && currentSlide !== 0 && (
+      {currentSlide !== slides.length - 1 && currentSlide !== 0 && (
         <div className="landing-controls-bottom">
           {currentSlide >= 1 && (
             <button onClick={handleSkip} className="skip-btn">Skip</button>
