@@ -36,7 +36,7 @@ const OtpVerification: React.FC = () => {
     const storedOtp = localStorage.getItem('defaultOtp');
     if (enteredOtp === storedOtp) {
       setError('');
-      navigate('/nextpage');
+      navigate('/user-data', { state: { phone } });
     } else {
       setError('Invalid OTP. Please try again.');
     }
@@ -50,6 +50,7 @@ const OtpVerification: React.FC = () => {
     setError('');
   };
     function maskPhone(phone: string) {
+      
     const digits = phone.replace(/\D/g, '');
     if (digits.length < 10) return phone;
     // Show first digit, mask middle, show last 2 digits
@@ -70,7 +71,7 @@ const OtpVerification: React.FC = () => {
       <h1 className="login-title signup-title">OTP Verification</h1>
       <div className="login-content">
         <p className="login-subtitle signup-subtitle">
-          Enter the verification code we just sent to your number <b>{maskPhone(phone)}</b>.
+          Enter the verification code we just sent to your number <b>{phone}</b>.
         </p>
         <form onSubmit={handleSubmit} className="signup-form otp-form">
           <div className="otp-input-row">
@@ -84,6 +85,7 @@ const OtpVerification: React.FC = () => {
                 value={digit}
                 onChange={e => handleChange(e.target.value, idx)}
                 className="otp-input"
+                autoComplete="off"
               />
             ))}
           </div>

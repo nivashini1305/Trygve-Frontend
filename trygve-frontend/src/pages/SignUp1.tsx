@@ -20,7 +20,6 @@ const SignUpPage: React.FC = () => {
     } else if (value.length > 10) {
       setError('Only 10 digits are allowed');
     }
-    // Add your OTP logic here
   };
    const handleSendCode = (e: React.FormEvent) => {
     e.preventDefault();

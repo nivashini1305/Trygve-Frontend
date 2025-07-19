@@ -54,9 +54,9 @@ const LandingPage: React.FC = () => {
   const handleGetStarted = () => {
       navigate('/home');  
   };
+
   const current = slides[currentSlide];
-
-
+  
 
   return (
     

@@ -77,6 +77,18 @@
   width: 100%;
   justify-content: center;
 }
+
+.login-title.signup-title {
+  font-family: 'Poppins', 'Montserrat', Arial, sans-serif;
+  font-size: 10rem;
+  color: #0456d9;
+  font-weight: 600;
+  margin-top: 1000px;      /* Adjust this value to move title down */
+  margin-bottom:100px;
+  text-align: center;
+  width: 100%;
+}
+
 .country-code-box {
   display: flex;
   align-items: center;
@@ -106,7 +118,7 @@
   font-size: 1.1rem;
 }
 .get-started-btn.signup-btn {
-  background: none !important; /* Force remove blue background */
+  background: rgb(15, 15, 231); /* Force remove blue background */
   color: #0456d9;              /* Set text color to blue or your preferred color */
   border-radius: 0;
   box-shadow: none;
