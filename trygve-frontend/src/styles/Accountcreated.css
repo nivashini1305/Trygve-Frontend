@@ -1,0 +1,95 @@
+.account-created-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+}
+
+.account-created-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/assets/TrygveLogo.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 80%;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.account-created-header {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    text-align: left;
+}
+
+.back-arrow {
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: #0052cc;
+    cursor: pointer;
+    padding: 0;
+}
+
+.account-created-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    padding-bottom: 100px; /* Push content up from button */
+}
+
+.checkmark-icon {
+    width: 100px;
+    height: 120px;
+    margin-bottom: 20px;
+}
+
+.confirmation-title {
+    font-family: 'Audiowide', sans-serif;
+    font-size: 1.5rem;
+    color: #0052cc;
+    max-width: 300px;
+    line-height: 1.3;
+    margin: 0 0 15px 0;
+}
+
+.confirmation-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    max-width: 280px;
+}
+
+.account-created-footer {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.login-btn {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
+}

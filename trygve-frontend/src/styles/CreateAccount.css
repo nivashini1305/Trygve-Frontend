@@ -1,0 +1,95 @@
+.create-account-container {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.create-account-header {
+    margin-bottom: 20px;
+}
+
+.back-arrow {
+    left:100px;
+    background: none;
+    border: none;
+    font-size: 2.5rem;
+    color: #0052cc;
+    cursor: pointer;
+    padding: 0;
+}
+
+.create-account-content {
+    flex-grow: 1;
+}
+
+.create-account-title {
+    font-family: 'Audiowide', sans-serif;
+    font-size: 1.8rem;
+    color: #0052cc;
+    margin: 0 0 10px 0;
+}
+
+.create-account-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #0052cc;
+    border-radius: 10px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.09);
+}
+
+.location-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.location-input-container input {
+    padding-right: 40px; /* Make space for the icon */
+}
+
+.location-icon {
+    position: absolute;
+    right: 15px;
+    font-size: 1.2rem;
+}
+
+.create-account-footer {
+    padding-bottom: 150px;
+    /* padding-bottom: 40px; */
+    width: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.create-account-btn {
+    width: 100%;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: #0052cc;
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
+}

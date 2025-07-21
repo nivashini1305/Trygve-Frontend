@@ -1,0 +1,106 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@400;600&display=swap');
+
+.welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #fff;
+    text-align: center;
+    position: relative;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+.welcome-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('/assets/TrygveLogo.png');
+    background-position: center 30%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    opacity: 0.1;
+    z-index: 1;
+}
+
+.welcome-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.welcome-title {
+    font-family: 'Audiowide', sans-serif;
+    font-size: 1.5rem;
+    color: #555;
+    margin: 0;
+}
+
+.welcome-logo-text {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #0052cc;
+    margin: -10px 0 20px 0;
+    letter-spacing: 2px;
+    font-family: 'Audiowide', sans-serif;
+}
+
+.welcome-subtitle {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 300px;
+}
+
+.welcome-buttons {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+     align-items: center;
+}
+.welcome-buttons .login-btn
+{
+        background-color: white;
+    color: #0052cc;
+    border: 2px solid #0052cc;
+    width: 70%;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
+    transition: box-shadow 0.3s ease, transform 0.1s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.btn-welcome {
+    background-color: white;
+    color: #0052cc;
+    border: 2px solid #0052cc;
+    width: 70%;
+    padding: 15px;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
+    transition: box-shadow 0.3s ease, transform 0.1s ease;
+    font-family: 'Poppins', sans-serif;
+}
+.btn-welcome:active {
+    transform: translateY(3px);
+    box-shadow: 0 2px 8px rgba(0, 82, 204, 0.2);
+}
