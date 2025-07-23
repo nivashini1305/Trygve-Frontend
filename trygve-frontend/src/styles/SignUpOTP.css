@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@400;600&display=swap');
+
 .signup-otp-container {
     display: flex;
     flex-direction: column;
@@ -127,4 +129,89 @@
     color: white;
     border: none;
     box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
+}
+
+.otp-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    padding: 20px;
+    background-color: #fff;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+.otp-header {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 40px;
+}
+
+.otp-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.otp-title {
+    font-family: 'Audiowide', sans-serif;
+    font-size: 1.8rem;
+    color: #0052cc;
+    margin: 0 0 10px 0;
+}
+
+.otp-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 40px;
+    max-width: 300px;
+}
+
+.otp-inputs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.otp-input {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #0052cc;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    outline: none;
+}
+
+.otp-input:focus {
+    border-color: #003d99;
+    box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.1);
+}
+
+.verify-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.resend-section {
+    text-align: center;
+}
+
+.resend-section p {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.resend-btn {
+    background: none;
+    border: none;
+    color: #0052cc;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: underline;
 }

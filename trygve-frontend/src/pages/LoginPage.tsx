@@ -7,19 +7,6 @@ const LoginPage: React.FC = () => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const storedUserDetailsString = localStorage.getItem('userDetails');
-    //     if (storedUserDetailsString) {
-    //         const userDetails = JSON.parse(storedUserDetailsString);
-    //         setEmail(userDetails.email || '');
-    //         setPhoneNumber(userDetails.primaryPhoneNumber || '');
-    //     } else {
-    //         // If no user details are found, redirect to sign up
-    //         alert('No user account found. Please sign up first.');
-    //         navigate('/signup');
-    //     }
-    // }, [navigate]);
-
     const handleContinue = () => {
         if (!email.trim() || phoneNumber.trim().length !== 10) {
             alert('Please enter a valid email and 10-digit phone number.');

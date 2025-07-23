@@ -1,104 +1,136 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { verifySignUpOTP } from '../firebase/auth';
 import '../styles/SignUpOTP.css';
 
 const SignUpOTP: React.FC = () => {
-    const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
-    const [userPhoneNumber, setUserPhoneNumber] = useState('');
+    const [otp, setOtp] = useState(['', '', '', '', '', '']);
+    const [isLoading, setIsLoading] = useState(false);
+    const [phoneNumber, setPhoneNumber] = useState('');
     const navigate = useNavigate();
-    const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+    const location = useLocation();
 
     useEffect(() => {
-        inputRefs.current = inputRefs.current.slice(0, otp.length);
-    }, [otp]);
-
-    useEffect(() => {
-        const storedPhoneNumber = localStorage.getItem('userPhoneNumber');
-        if (storedPhoneNumber) {
-            const maskedNumber = `${storedPhoneNumber.substring(0, 1)}*******${storedPhoneNumber.substring(storedPhoneNumber.length - 2)}`;
-            setUserPhoneNumber(maskedNumber);
+        // Get phone number from navigation state or localStorage
+        const phone = location.state?.phoneNumber || localStorage.getItem('userPhoneNumber');
+        if (phone) {
+            setPhoneNumber(phone);
         } else {
+            // If no phone number, redirect back to signup
             navigate('/signup');
         }
-    }, [navigate]);
+    }, [location, navigate]);
 
-    const handleChange = (element: HTMLInputElement, index: number) => {
-        if (isNaN(Number(element.value))) return;
-        const newOtp = [...otp];
-        newOtp[index] = element.value;
-        setOtp(newOtp);
-        if (element.value !== '' && index < 5) {
-            inputRefs.current[index + 1]?.focus();
+    const handleOtpChange = (index: number, value: string) => {
+        if (value.length <= 1) {
+            const newOtp = [...otp];
+            newOtp[index] = value;
+            setOtp(newOtp);
+
+            // Auto-focus next input
+            if (value && index < 5) {
+                const nextInput = document.getElementById(`otp-input-${index + 1}`);
+                nextInput?.focus();
+            }
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number) => {
-        if (e.key === 'Backspace' && otp[index] === '' && index > 0) {
-            inputRefs.current[index - 1]?.focus();
+    const handleKeyDown = (index: number, e: React.KeyboardEvent) => {
+        if (e.key === 'Backspace' && !otp[index] && index > 0) {
+            const prevInput = document.getElementById(`otp-input-${index - 1}`);
+            prevInput?.focus();
         }
     };
 
-    const handleVerifyOTP = () => {
-        const enteredOTP = otp.join('');
-        const storedOTP = localStorage.getItem('generatedOtp');
+    const handleVerifyOTP = async () => {
+        const otpCode = otp.join('');
+        
+        if (otpCode.length !== 6) {
+            alert('Please enter the complete 6-digit OTP');
+            return;
+        }
 
-        if (enteredOTP === storedOTP) {
-            alert('OTP Verified Successfully!');
+        setIsLoading(true);
+
+        try {
+            const result = await verifySignUpOTP(otpCode);
+            
+            alert('Phone number verified successfully!');
+            
+            // Navigate to create account page
             navigate('/create-account');
-        } else {
-            alert('Invalid OTP. Please try again.');
+            
+        } catch (error: any) {
+            alert(`Verification failed: ${error.message}`);
+            // Clear OTP inputs on error
+            setOtp(['', '', '', '', '', '']);
+            const firstInput = document.getElementById('otp-input-0');
+            firstInput?.focus();
+        } finally {
+            setIsLoading(false);
         }
     };
 
-    const handleResendCode = () => {
-        const storedPhoneNumber = localStorage.getItem('userPhoneNumber');
-        if (storedPhoneNumber) {
-            const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            localStorage.setItem('generatedOTP', newOtp);
-            alert(`A new OTP has been sent to your number.`);
-            // Optional: Clear the input fields and focus the first one
-            setOtp(new Array(6).fill(''));
-            inputRefs.current[0]?.focus();
-        }
+    const handleResendOTP = () => {
+        // Navigate back to signup page to resend
+        navigate('/signup');
     };
 
     const handleNavigateBack = () => {
-        navigate(-1);
+        navigate('/signup');
     };
+
+    const maskedPhoneNumber = phoneNumber ? 
+        `+91 ${phoneNumber.slice(0, 2)}****${phoneNumber.slice(-2)}` : 
+        '';
 
     return (
         <div className="signup-otp-container">
             <div className="signup-otp-content">
                 <div className="title-container">
                     <button onClick={handleNavigateBack} className="back-arrow">‹</button>
-                    <h1 className="verify-title"> OTP Verification</h1>
+                    <h1 className="verify-title">Verify Phone Number</h1>
                 </div>
+                
                 <p className="verify-subtitle">
-                    Enter the verification code we just sent to your number +91 {userPhoneNumber}
+                    Enter the 6-digit code sent to {maskedPhoneNumber}
                 </p>
+
                 <div className="otp-input-container">
-                    {otp.map((data, index) => (
+                    {otp.map((digit, index) => (
                         <input
                             key={index}
+                            id={`otp-input-${index}`}
                             type="text"
                             className="otp-input-box"
+                            value={digit}
+                            onChange={(e) => handleOtpChange(index, e.target.value)}
+                            onKeyDown={(e) => handleKeyDown(index, e)}
                             maxLength={1}
-                            value={data}
-                            onChange={(e) => handleChange(e.target as HTMLInputElement, index)}
-                            onKeyDown={(e) => handleKeyDown(e, index)}
-                            onFocus={(e) => e.target.select()}
-                            ref={(el) => (inputRefs.current[index] = el)}
+                            disabled={isLoading}
                         />
                     ))}
                 </div>
-                <p className="resend-prompt">
-                    Didn't receive code? <span className="resend-link" onClick={handleResendCode}>Resend</span>
-                </p>
+
+                <div className="resend-prompt">
+                    <span>Didn't receive the code? </span>
+                    <span className="resend-link" onClick={handleResendOTP}>
+                        Resend OTP
+                    </span>
+                </div>
             </div>
+
             <div className="verify-footer">
-                <button onClick={handleVerifyOTP} className="verify-btn">Verify</button>
+                <button 
+                    className="verify-btn" 
+                    onClick={handleVerifyOTP}
+                    disabled={isLoading || otp.join('').length !== 6}
+                >
+                    {isLoading ? 'Verifying...' : 'Verify OTP'}
+                </button>
             </div>
         </div>
     );
 };
+
 export default SignUpOTP;
