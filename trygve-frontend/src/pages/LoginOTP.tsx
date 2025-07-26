@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { verifyLoginOTP } from '../firebase/auth';
 import '../styles/LoginOTP.css';
 
-const SignUpOTP: React.FC = () => {
+const LoginOTP: React.FC = () => {
     const [otp, setOtp] = useState<string[]>(new Array(6).fill(''));
+    const [isLoading, setIsLoading] = useState(false);
     const [userPhoneNumber, setUserPhoneNumber] = useState('');
     const navigate = useNavigate();
+    const location = useLocation();
     const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
     useEffect(() => {
@@ -13,14 +16,14 @@ const SignUpOTP: React.FC = () => {
     }, [otp]);
 
     useEffect(() => {
-        const storedPhoneNumber = localStorage.getItem('userPhoneNumber');
-        if (storedPhoneNumber) {
-            const maskedNumber = `${storedPhoneNumber.substring(0, 1)}*******${storedPhoneNumber.substring(storedPhoneNumber.length - 2)}`;
+        const phone = location.state?.phoneNumber || localStorage.getItem('loginPhoneNumber');
+        if (phone) {
+            const maskedNumber = `${phone.substring(0, 1)}*******${phone.substring(phone.length - 2)}`;
             setUserPhoneNumber(maskedNumber);
         } else {
             navigate('/login');
         }
-    }, [navigate]);
+    }, [location, navigate]);
 
     const handleChange = (element: HTMLInputElement, index: number) => {
         if (isNaN(Number(element.value))) return;
@@ -38,48 +41,46 @@ const SignUpOTP: React.FC = () => {
         }
     };
 
-    const handleVerifyOTP = () => {
-        const enteredOTP = otp.join('');
-        const storedOTP = localStorage.getItem('login-otp');
-
-        if (enteredOTP === storedOTP) {
-            alert('OTP Verified Successfully!');
-            navigate('/login-success'); //verify success
-        } else {
-            alert('Invalid OTP. Please try again.');
+    const handleVerifyLoginOTP = async () => {
+        const otpCode = otp.join('');
+        if (otpCode.length !== 6) {
+            alert('Please enter the complete 6-digit OTP');
+            return;
         }
-    };
 
-    const handleResendCode = () => {
-        const storedPhoneNumber = localStorage.getItem('userPhoneNumber');
-        if (storedPhoneNumber) {
-            const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-            localStorage.setItem('login-otp', newOtp);
-            alert(`A new OTP has been sent to your number.`);
-            // Optional: Clear the input fields and focus the first one
-            setOtp(new Array(6).fill(''));
+        setIsLoading(true);
+        try {
+            await verifyLoginOTP(otpCode);
+            alert('Login successful!');
+            navigate('/dashboard');
+        } catch (error: any) {
+            alert(`Login verification failed: ${error.message}`);
+            setOtp(['', '', '', '', '', '']);
             inputRefs.current[0]?.focus();
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const handleNavigateBack = () => {
-        navigate(-1);
+        navigate('/login');
     };
 
     return (
-        <div className="signup-otp-container">
-            <div className="signup-otp-content">
+        <div className="login-otp-container">
+            <div className="login-otp-content">
                 <div className="title-container">
                     <button onClick={handleNavigateBack} className="back-arrow">‹</button>
-                    <h1 className="verify-title"> Verification Code</h1>
+                    <h1 className="verify-title">Verify Login</h1>
                 </div>
                 <p className="verify-subtitle">
-                   We have sent the verification code to your email address
+                    Enter the 6-digit code sent to {userPhoneNumber}
                 </p>
                 <div className="otp-input-container">
                     {otp.map((data, index) => (
                         <input
                             key={index}
+                            id={`login-otp-input-${index}`}
                             type="text"
                             className="otp-input-box"
                             maxLength={1}
@@ -88,17 +89,28 @@ const SignUpOTP: React.FC = () => {
                             onKeyDown={(e) => handleKeyDown(e, index)}
                             onFocus={(e) => e.target.select()}
                             ref={(el) => (inputRefs.current[index] = el)}
+                            disabled={isLoading}
                         />
                     ))}
                 </div>
-                <p className="resend-prompt">
-                    Didn't receive code? <span className="resend-link" onClick={handleResendCode}>Resend</span>
-                </p>
+                <div className="resend-prompt">
+                    <span>Didn't receive the code? </span>
+                    <span className="resend-link" onClick={() => navigate('/login')}>
+                        Resend OTP
+                    </span>
+                </div>
             </div>
             <div className="verify-footer">
-                <button onClick={handleVerifyOTP} className="verify-btn">Continue</button>
+                <button
+                    className="verify-btn"
+                    onClick={handleVerifyLoginOTP}
+                    disabled={isLoading || otp.join('').length !== 6}
+                >
+                    {isLoading ? 'Verifying...' : 'Verify & Login'}
+                </button>
             </div>
         </div>
     );
 };
-export default SignUpOTP;
+
+export default LoginOTP;

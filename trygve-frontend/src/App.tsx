@@ -18,7 +18,7 @@ function App() {
         <Route path="/verify-otp" element={<SignUpOTP />} />
         <Route path="/create-account" element={<CreateAccountPage />} />
         <Route path="/account-created" element={<AccountCreatedPage />} />
-        <Route path="/loginOTP" element={<LoginOTP />} />
+        <Route path="/login-otp" element={<LoginOTP />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         

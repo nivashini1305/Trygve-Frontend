@@ -3,92 +3,91 @@ import { app } from './config';
 
 const auth = getAuth(app);
 
-// Store the confirmation result globally
-let confirmationResultHolder: ConfirmationResult | null = null;
+// Use SEPARATE holders for signup and login to prevent conflicts
+let signUpConfirmationResult: ConfirmationResult | null = null;
+let loginConfirmationResult: ConfirmationResult | null = null;
 
+// --- SIGNUP FUNCTIONS ---
 export const sendSignUpOTP = async (phoneNumber: string): Promise<void> => {
     const fullPhoneNumber = `+91${phoneNumber}`;
-    
     try {
-        // Create reCAPTCHA verifier if it doesn't exist
         if (!(window as any).recaptchaVerifier) {
-            (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-                'size': 'invisible',
-                'callback': (response: any) => {
-                    console.log("reCAPTCHA solved");
-                },
-                'expired-callback': () => {
-                    console.log("reCAPTCHA expired");
-                }
-            });
+            (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
         }
-
         const appVerifier = (window as any).recaptchaVerifier;
-        
-        // Send OTP
-        confirmationResultHolder = await signInWithPhoneNumber(auth, fullPhoneNumber, appVerifier);
-        console.log("OTP sent successfully");
-        
-    } catch (error: any) {
-        console.error("Error sending OTP:", error);
-        
-        // Reset reCAPTCHA on error
-        if ((window as any).recaptchaVerifier) {
-            (window as any).recaptchaVerifier.clear();
-            (window as any).recaptchaVerifier = null;
-        }
-        
-        throw new Error(`Failed to send OTP: ${error.message}`);
+        signUpConfirmationResult = await signInWithPhoneNumber(auth, fullPhoneNumber, appVerifier);
+    } catch (error) {
+        throw new Error(`Failed to send signup OTP: ${error}`);
     }
 };
 
 export const verifySignUpOTP = async (otp: string) => {
-    if (!confirmationResultHolder) {
-        throw new Error("No OTP verification pending. Please request a new OTP.");
+    if (!signUpConfirmationResult) {
+        throw new Error("Signup verification process expired. Please request a new OTP.");
     }
-
     try {
-        const result = await confirmationResultHolder.confirm(otp);
-        console.log("OTP verified successfully", result.user);
-        
-        // Get the ID token from Firebase
+        const result = await signUpConfirmationResult.confirm(otp);
         const idToken = await result.user.getIdToken();
-        
-        // Store the token in localStorage
         localStorage.setItem('firebaseToken', idToken);
-        
-        // Optional: Store user UID as well
         localStorage.setItem('userUID', result.user.uid);
-        
-        console.log("Token stored in localStorage");
-        
-        // Clear the confirmation result after successful verification
-        confirmationResultHolder = null;
-        
+        signUpConfirmationResult = null; // Clear after use
         return result;
-    } catch (error: any) {
-        console.error("Error verifying OTP:", error);
-        throw new Error(`Invalid OTP: ${error.message}`);
+    } catch (error) {
+        throw new Error(`Invalid signup OTP: ${error}`);
     }
 };
 
-// Helper function to get stored token
+
+// --- LOGIN FUNCTIONS ---
+export const sendLoginOTP = async (phoneNumber: string): Promise<void> => {
+    const fullPhoneNumber = `+91${phoneNumber}`;
+    try {
+        if (!(window as any).recaptchaVerifier) {
+            (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', { size: 'invisible' });
+        }
+        const appVerifier = (window as any).recaptchaVerifier;
+        loginConfirmationResult = await signInWithPhoneNumber(auth, fullPhoneNumber, appVerifier);
+    } catch (error) {
+        throw new Error(`Failed to send login OTP: ${error}`);
+    }
+};
+
+export const verifyLoginOTP = async (otp: string) => {
+    if (!loginConfirmationResult) {
+        throw new Error("Login verification process expired. Please request a new OTP.");
+    }
+    try {
+        const result = await loginConfirmationResult.confirm(otp);
+        const idToken = await result.user.getIdToken();
+        localStorage.setItem('firebaseToken', idToken);
+        localStorage.setItem('userUID', result.user.uid);
+        loginConfirmationResult = null; // Clear after use
+        return result;
+    } catch (error) {
+        throw new Error(`Invalid login OTP: ${error}`);
+    }
+};
+
+
+// --- HELPER FUNCTIONS ---
+export const resetRecaptcha = () => {
+    // 1. Clear the Firebase verifier instance if it exists on the window object.
+    if ((window as any).recaptchaVerifier) {
+        (window as any).recaptchaVerifier.clear();
+         (window as any).recaptchaVerifier = null; // Nullify the object to be safe.
+    }
+};
+
+const recaptchaContainer = document.getElementById('recaptcha-container');
+    if (recaptchaContainer) {
+        recaptchaContainer.innerHTML = '';
+    }
+
 export const getStoredToken = (): string | null => {
     return localStorage.getItem('firebaseToken');
 };
 
-// Helper function to clear stored authentication data
 export const clearStoredAuth = (): void => {
     localStorage.removeItem('firebaseToken');
     localStorage.removeItem('userUID');
 };
-
-// Clean up function to reset reCAPTCHA
-export const resetRecaptcha = () => {
-    if ((window as any).recaptchaVerifier) {
-        (window as any).recaptchaVerifier.clear();
-        (window as any).recaptchaVerifier = null;
-    }
-};
-
-export { auth };

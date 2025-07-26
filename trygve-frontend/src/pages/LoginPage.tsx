@@ -1,39 +1,54 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sendLoginOTP, resetRecaptcha } from '../firebase/auth'; // Import Firebase functions
 import '../styles/LoginPage.css';
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [isLoading, setIsLoading] = useState(false); // Add loading state
     const navigate = useNavigate();
 
-    const handleContinue = () => {
+    // Add useEffect to manage reCAPTCHA
+    useEffect(() => {
+        resetRecaptcha();
+        return () => {
+            resetRecaptcha();
+        };
+    }, []);
+
+    const handleContinue = async () => {
         if (!email.trim() || phoneNumber.trim().length !== 10) {
             alert('Please enter a valid email and 10-digit phone number.');
             return;
         }
-         const storedUserDetailsString = localStorage.getItem('userDetails');
+
+        const storedUserDetailsString = localStorage.getItem('userDetails');
         if (storedUserDetailsString) {
             const storedUserDetails = JSON.parse(storedUserDetailsString);
 
-            // Step 3: Validate the user's input against the stored details
+            // Step 1: Validate credentials
             if (
                 storedUserDetails.email.toLowerCase() === email.toLowerCase() &&
                 storedUserDetails.primaryPhoneNumber === phoneNumber
             ) {
-                // If validation succeeds, generate OTP and proceed
-                const otp = Math.floor(100000 + Math.random() * 900000).toString();
-                localStorage.setItem('login-otp', otp);
-                localStorage.setItem('userPhoneNumber', phoneNumber);
-                
-                alert(`An OTP has been sent to +91 ${phoneNumber}.`);
-                navigate('/login-otp');
+                // Step 2: If valid, send OTP via Firebase
+                setIsLoading(true);
+                try {
+                    await sendLoginOTP(phoneNumber);
+                    // Store phone number for the OTP page to use
+                    localStorage.setItem('loginPhoneNumber', phoneNumber);
+                    alert(`Login OTP sent to +91${phoneNumber}`);
+                    navigate('/login-otp', { state: { phoneNumber } });
+                } catch (error: any) {
+                    alert(`Failed to send login OTP: ${error.message}`);
+                } finally {
+                    setIsLoading(false);
+                }
             } else {
-                // If validation fails, show an error
                 alert('Invalid credentials. The email or phone number does not match our records.');
             }
         } else {
-            // If no account exists at all
             alert('No user account found. Please sign up first.');
         }
     };
@@ -56,6 +71,7 @@ const LoginPage: React.FC = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="Enter your email"
+                            disabled={isLoading}
                         />
                         <span className="edit-icon">✎</span>
                     </div>
@@ -63,21 +79,32 @@ const LoginPage: React.FC = () => {
 
                 <div className="input-wrapper">
                     <label htmlFor="phone">Phone Number</label>
-                    <div className="input-field-container">
+                    <div className="phone-input-group">
+                        <span className="country-code-text">+91</span>
                         <input
                             id="phone"
                             type="tel"
+                            className="phone-input-field"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
-                            placeholder="Enter your phone number"
+                            placeholder="1234567890"
                             maxLength={10}
+                            disabled={isLoading}
                         />
                     </div>
                 </div>
             </div>
             <div className="login-footer">
-                <button onClick={handleContinue} className="continue-btn">Continue</button>
+                <button 
+                    onClick={handleContinue} 
+                    className="continue-btn"
+                    disabled={isLoading}
+                >
+                    {isLoading ? 'Sending...' : 'Continue'}
+                </button>
             </div>
+            {/* This container is REQUIRED for the invisible reCAPTCHA */}
+            <div id="recaptcha-container"></div>
         </div>
     );
 };

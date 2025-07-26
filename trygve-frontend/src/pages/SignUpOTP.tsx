@@ -81,7 +81,7 @@ const SignUpOTP: React.FC = () => {
     };
 
     const maskedPhoneNumber = phoneNumber ? 
-        `+91 ${phoneNumber.slice(0, 2)}****${phoneNumber.slice(-2)}` : 
+        `+91 ${phoneNumber.slice(0, 2)}*******${phoneNumber.slice(-2)}` : 
         '';
 
     return (
@@ -108,6 +108,7 @@ const SignUpOTP: React.FC = () => {
                             onKeyDown={(e) => handleKeyDown(index, e)}
                             maxLength={1}
                             disabled={isLoading}
+                            autoComplete="one-time-code"
                         />
                     ))}
                 </div>

@@ -65,7 +65,7 @@ const SignUpPage: React.FC = () => {
                         <input
                             type="tel"
                             className="phone-input"
-                            placeholder="1234567890"
+                            placeholder="Enter your phone number"
                             value={phoneNumber}
                             onChange={(e) => setPhoneNumber(e.target.value)}
                             maxLength={10}

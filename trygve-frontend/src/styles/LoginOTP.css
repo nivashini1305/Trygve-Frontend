@@ -1,130 +1,132 @@
-.signup-otp-container {
+@import url('https://fonts.googleapis.com/css2?family=Audiowide&family=Poppins:wght@400;600&display=swap');
+
+/* Main container for the entire page */
+.login-otp-container {
     display: flex;
     flex-direction: column;
     height: 100vh;
     padding: 20px;
-    background-color: #fff;
-    position: relative;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
-    /* justify-content: center; */
-    /* margin-top: 70px; */
+    background-color: #fff;
 }
 
-.signup-otp-container::before {
-    content: '';
-    position: absolute;
-    top: 60%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 60%;
-    height: 60%;
-    background-image: url('/assets/TrygveLogo.png');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    opacity: 0.1;
-    z-index: 1;
-}
-
-.signup-otp-content {
-    position: relative;
-    z-index: 2;
+/* This container holds all the content except the bottom button */
+.login-otp-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
-    align-items: center;
-    margin-top: 70px;
+    align-items: center; /* Center all content horizontally */
+    justify-content: center; /* Center all content vertically */
+    text-align: center;
 }
 
+/* This container holds the back arrow and title */
 .title-container {
+    position: relative; /* Allows absolute positioning for the arrow */
+    width: 100%;
     display: flex;
+    justify-content: center;
     align-items: center;
     margin-bottom: 15px;
-    justify-content: center;
-    width: 100%;
 }
 
+/* Position the back arrow on the far left */
 .back-arrow {
+    position: absolute;
+    left: 0;
     background: none;
     border: none;
     font-size: 2.5rem;
-    color: #0052cc;
+    color: #333;
     cursor: pointer;
     padding: 0;
-    position: absolute;
-    left: 20px;
 }
 
+/* Style for the main "Verify Login" title */
 .verify-title {
     font-family: 'Audiowide', sans-serif;
     font-size: 1.8rem;
     color: #0052cc;
-    margin: 0 ;
+    margin: 0;
 }
 
+/* Style for the subtitle text */
 .verify-subtitle {
-   font-size: 0.9rem;
+    font-size: 0.9rem;
     color: #666;
-    max-width: 350px; /* Increased width for better text flow */
     margin-bottom: 30px;
-    text-align: center; 
+    max-width: 350px;
 }
 
+/* Container for the OTP input boxes */
 .otp-input-container {
     display: flex;
-    justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
-    width: 100%;
 }
 
+/* Styling for each individual OTP box */
 .otp-input-box {
-    width: 40px;
-    height: 45px;
-    border: 2px solid #0052cc;
-    border-radius: 10px;
+    width: 45px;
+    height: 50px;
+    border: 1px solid #0052cc;
+    border-radius: 8px;
     text-align: center;
     font-size: 1.5rem;
     font-weight: 600;
-    color: #333;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.otp-input-box:focus {
+    border-color: #003d99;
+    box-shadow: 0 0 0 3px rgba(0, 82, 204, 0.15);
+}
+
+/* Styling for the "Resend OTP" text */
 .resend-prompt {
-    text-align: center;
     font-size: 0.9rem;
     color: #666;
-    width: 100%;
 }
 
 .resend-link {
-    text-align: center;
     color: #0052cc;
     font-weight: 600;
     cursor: pointer;
+    text-decoration: underline;
 }
 
+/* Container for the bottom button, keeps it at the bottom */
 .verify-footer {
-    position: relative;
-    z-index: 2;
-    padding-bottom: 20px;
-    width: 100%;
     display: flex;
     justify-content: center;
+    padding-bottom: 20px;
 }
 
+/* Styling for the main "Verify & Login" button */
 .verify-btn {
-    /* margin-top: 10; */
-    max-width: 350px;
     width: 100%;
+    max-width: 350px;
     padding: 15px;
     border-radius: 30px;
     font-size: 1.1rem;
     font-weight: 600;
     cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+}
+
+/* Style for the button when it's enabled */
+.verify-btn:not(:disabled) {
     background-color: #0052cc;
     color: white;
-    border: none;
-    box-shadow: 0 4px 12px rgba(0, 82, 204, 0.25);
+}
+
+/* Style for the button when it's disabled */
+.verify-btn:disabled {
+    background-color: #e0e0e0;
+    color: #666;
+    cursor: not-allowed;
 }

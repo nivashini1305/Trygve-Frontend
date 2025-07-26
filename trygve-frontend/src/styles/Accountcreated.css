@@ -34,6 +34,8 @@
 
 .back-arrow {
     background: none;
+    margin-left: 70px;
+    margin-top:0px;
     border: none;
     font-size: 2.5rem;
     color: #0052cc;
